@@ -31,7 +31,7 @@ int	parse_args(int argc, char **argv, t_vars *vars)
 
 int	main(int argc, char **argv)
 {
-	t_vars	vars;
+	t_vars vars;
 
 	if (!parse_args(argc, argv, &vars))
 	{
