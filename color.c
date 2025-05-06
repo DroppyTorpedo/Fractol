@@ -14,10 +14,10 @@
 
 int	get_color(int iter)
 {
-	double t;
-	int r;
-	int g;
-	int b;
+	int		r;
+	int		g;
+	int		b;
+	double	t;
 
 	t = (double)iter / MAX_ITER;
 	r = (int)(9 * (1 - t) * t * t * t * 255);

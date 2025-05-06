@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:30:13 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/05/02 13:42:42 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:19:43 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,18 @@ typedef struct s_vars
 	double				c_i;
 	t_view				view;
 	int					max_iter;
+
+	char				*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
 }						t_vars;
+
+typedef struct s_range
+{
+	double				min;
+	double				max;
+}						t_range;
 
 /* utils.c */
 int						parse_args(int argc, char **argv, t_vars *vars);
@@ -84,14 +95,17 @@ double					ft_atof(const char *s);
 
 /* mlx_utils.c */
 void					init_mlx(t_vars *vars);
-void					mlx_pixel_put_image(void *img, int x, int y, int color);
+void					mlx_pixel_put_image(t_vars *vars, int x, int y,
+							int color);
 
 /* view.c */
 void					set_default_view(t_vars *vars);
+void					move_view(int key, t_vars *vars);
+void					update_view(t_vars *vars, double factor, double mouse_r,
+							double mouse_i);
 
 /* draw.c */
-double					map_value(double v, double min1, double max1,
-							double min2, double max2);
+double					map_value(double v, t_range src, t_range dst);
 void					draw_fractal(t_vars *vars);
 
 /* fractals.c */

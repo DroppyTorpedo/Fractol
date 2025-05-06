@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:28:56 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/05/05 18:45:09 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:19:33 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,16 @@ int	key_hook(int key, t_vars *vars)
 {
 	if (key == KEY_ESC)
 		exit(EXIT_SUCCESS);
-	else if (key == KEY_LEFT)
-	{
-		vars->view.x_min -= MOVE_STEP / vars->view.zoom;
-		vars->view.x_max -= MOVE_STEP / vars->view.zoom;
-	}
-	else if (key == KEY_RIGHT)
-	{
-		vars->view.x_min += MOVE_STEP / vars->view.zoom;
-		vars->view.x_max += MOVE_STEP / vars->view.zoom;
-	}
-	else if (key == KEY_UP)
-	{
-		vars->view.y_min -= MOVE_STEP / vars->view.zoom;
-		vars->view.y_max -= MOVE_STEP / vars->view.zoom;
-	}
-	else if (key == KEY_DOWN)
-	{
-		vars->view.y_min += MOVE_STEP / vars->view.zoom;
-		vars->view.y_max += MOVE_STEP / vars->view.zoom;
-	}
+	else if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP
+		|| key == KEY_DOWN)
+		move_view(key, vars);
 	else if (key == KEY_PLUS)
 		vars->max_iter += ITER_STEP;
 	else if (key == KEY_MINUS)
-		vars->max_iter = (vars->max_iter > ITER_STEP) ? vars->max_iter
-			- ITER_STEP : vars->max_iter;
+	{
+		if (vars->max_iter > ITER_STEP)
+			vars->max_iter -= ITER_STEP;
+	}
 	draw_fractal(vars);
 	return (0);
 }
@@ -53,17 +38,19 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 	double	mouse_r;
 	double	mouse_i;
 
-	factor = (button == MOUSE_SCROLL_UP) ? ZOOM_FACTOR : (button == MOUSE_SCROLL_DOWN) ? (1.0
-			/ ZOOM_FACTOR) : 1.0;
+	if (button == MOUSE_SCROLL_UP)
+		factor = ZOOM_FACTOR;
+	else if (button == MOUSE_SCROLL_DOWN)
+		factor = 1.0 / ZOOM_FACTOR;
+	else
+		factor = 1.0;
 	if (factor == 1.0)
 		return (0);
-	mouse_r = map_value(x, 0, WIDTH, vars->view.x_min, vars->view.x_max);
-	mouse_i = map_value(y, 0, HEIGHT, vars->view.y_min, vars->view.y_max);
-	vars->view.x_min = mouse_r + (vars->view.x_min - mouse_r) * factor;
-	vars->view.x_max = mouse_r + (vars->view.x_max - mouse_r) * factor;
-	vars->view.y_min = mouse_i + (vars->view.y_min - mouse_i) * factor;
-	vars->view.y_max = mouse_i + (vars->view.y_max - mouse_i) * factor;
-	vars->view.zoom *= factor;
+	mouse_r = map_value(x, (t_range){0, WIDTH}, (t_range){vars->view.x_min,
+			vars->view.x_max});
+	mouse_i = map_value(y, (t_range){0, HEIGHT}, (t_range){vars->view.y_min,
+			vars->view.y_max});
+	update_view(vars, factor, mouse_r, mouse_i);
 	draw_fractal(vars);
 	return (0);
 }

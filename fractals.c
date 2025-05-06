@@ -49,8 +49,9 @@ int	julia_iter(t_complex z, t_complex c)
 
 int	burningship_iter(t_complex c)
 {
-	t_complex z;
-	int i;
+	int			i;
+	double		tmp;
+	t_complex	z;
 
 	z.r = 0.0;
 	z.i = 0.0;
@@ -59,7 +60,7 @@ int	burningship_iter(t_complex c)
 	{
 		z.r = fabs(z.r);
 		z.i = fabs(z.i);
-		double tmp = z.r * z.r - z.i * z.i + c.r;
+		tmp = z.r * z.r - z.i * z.i + c.r;
 		z.i = 2.0 * z.r * z.i + c.i;
 		z.r = tmp;
 		i++;
