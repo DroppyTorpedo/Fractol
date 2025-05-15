@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:24:33 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/05/06 18:47:41 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:49:07 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ static int	calculate_iter(t_vars *vars, t_complex point)
 		return (mandelbrot_iter(point));
 	if (vars->type == JULIA)
 		return (julia_iter(point, (t_complex){vars->c_r, vars->c_i}));
-	return (burningship_iter(point));
+	if (vars->type == BURNING_SHIP)
+		return (burningship_iter(point));
+	if (vars->type == TRICORN)
+		return (tricorn_iter(point));
+	else
+		return (0);
 }
 
 static void	draw_pixel(t_vars *vars, int px, int py)
@@ -37,7 +42,7 @@ static void	draw_pixel(t_vars *vars, int px, int py)
 	point.i = map_value(py, (t_range){0, HEIGHT}, (t_range){vars->view.y_min,
 			vars->view.y_max});
 	iter = calculate_iter(vars, point);
-	mlx_pixel_put_image(vars, px, py, get_color(iter));
+	mlx_pixel_put_image(vars, px, py, get_color(vars, iter));
 }
 
 void	draw_fractal(t_vars *vars)

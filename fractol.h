@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:30:13 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/05/06 19:19:43 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:45:51 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define ITER_STEP 10
 # define ZOOM_FACTOR 1.1
 
-/* Keycodes (Linux / X11) */
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
@@ -33,8 +32,9 @@
 # define KEY_DOWN 65364
 # define KEY_PLUS 61
 # define KEY_MINUS 45
+# define KEY_A 97
+# define KEY_S 115
 
-/* Mouse buttons (Linux X11) */
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
 
@@ -58,7 +58,8 @@ enum					e_fract
 	FRACT_UNKNOWN,
 	MANDELBROT,
 	JULIA,
-	BURNING_SHIP
+	BURNING_SHIP,
+	TRICORN
 };
 typedef enum e_fract	t_fract;
 
@@ -72,7 +73,7 @@ typedef struct s_vars
 	double				c_i;
 	t_view				view;
 	int					max_iter;
-
+	int					color_offset;
 	char				*addr;
 	int					bpp;
 	int					line_len;
@@ -112,9 +113,11 @@ void					draw_fractal(t_vars *vars);
 int						mandelbrot_iter(t_complex c);
 int						julia_iter(t_complex z, t_complex c);
 int						burningship_iter(t_complex c);
+int						tricorn_iter(t_complex c);
 
 /* color.c */
-int						get_color(int iter);
+void					shift_color(t_vars *vars, int delta);
+int						get_color(t_vars *vars, int iter);
 
 /* events.c */
 int						key_hook(int key, t_vars *vars);

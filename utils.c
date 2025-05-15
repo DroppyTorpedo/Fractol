@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:22:48 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/04/26 23:22:48 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:16:59 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ t_fract	parse_type(char *s)
 		return (JULIA);
 	if (ft_strcmp(s, "burningship") == 0)
 		return (BURNING_SHIP);
+	if (ft_strcmp(s, "tricorn") == 0)
+		return (TRICORN);
 	return (FRACT_UNKNOWN);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:21:37 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/04/26 23:21:37 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:43:18 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	}
 	init_mlx(&vars);
 	set_default_view(&vars);
+	vars.color_offset = 0;
 	draw_fractal(&vars);
 	set_hooks(&vars);
 	mlx_loop(vars.mlx);

@@ -6,7 +6,7 @@
 /*   By: rnorvene <rnorvene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:28:56 by rnorvene          #+#    #+#             */
-/*   Updated: 2025/05/06 19:19:33 by rnorvene         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:39:17 by rnorvene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	key_hook(int key, t_vars *vars)
 		if (vars->max_iter > ITER_STEP)
 			vars->max_iter -= ITER_STEP;
 	}
+	else if (key == KEY_A)
+		shift_color(vars, -1);
+	else if (key == KEY_S)
+		shift_color(vars, 1);
 	draw_fractal(vars);
 	return (0);
 }
@@ -38,13 +42,11 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 	double	mouse_r;
 	double	mouse_i;
 
-	if (button == MOUSE_SCROLL_UP)
+	if (button == MOUSE_SCROLL_DOWN)
 		factor = ZOOM_FACTOR;
-	else if (button == MOUSE_SCROLL_DOWN)
+	else if (button == MOUSE_SCROLL_UP)
 		factor = 1.0 / ZOOM_FACTOR;
 	else
-		factor = 1.0;
-	if (factor == 1.0)
 		return (0);
 	mouse_r = map_value(x, (t_range){0, WIDTH}, (t_range){vars->view.x_min,
 			vars->view.x_max});
